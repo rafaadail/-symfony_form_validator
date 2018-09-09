@@ -3,7 +3,9 @@ parameters:
     # This allows you to run cache:warmup even if your
     # environment variables are not available yet.
     # You should not need to change this value.
-    env(DATABASE_URL): ''
+#    env(DATABASE_URL): 'mysql://root:root@192.168.110.233:1337/db_symfony4_form'
+    env(DATABASE_URL): 'mysql://root:root@192.168.1.108:1337/db_symfony4_form'
+#    env(DATABASE_URL): 'mysql://root:root@192.168.1.247:1337/db_symfony4_form'
 
 doctrine:
     dbal:

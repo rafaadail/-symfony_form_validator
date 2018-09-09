@@ -31,7 +31,7 @@ class Cargo
     /**
      * @return string
      */
-    public function getNome(): string
+    public function getNome()
     {
         return $this->nome;
     }
@@ -40,7 +40,7 @@ class Cargo
      * @param string $nome
      * @return Cargo
      */
-    public function setNome(string $nome): Cargo
+    public function setNome($nome)
     {
         $this->nome = $nome;
         return $this;

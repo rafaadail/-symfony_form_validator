@@ -56,16 +56,16 @@ class Tecnologia
     /**
      * @return Candidato
      */
-    public function getCandidatos (): Candidato
+    public function getCandidatos ()
     {
         return $this->candidatos;
     }
 
     /**
-     * @param Candidato $candidatos
-     * @return Tecnologia
+     * @param $candidatos
+     * @return $this
      */
-    public function setCandidatos (Candidato $candidatos): Tecnologia
+    public function setCandidatos ($candidatos)
     {
         $this->candidatos = $candidatos;
         return $this;

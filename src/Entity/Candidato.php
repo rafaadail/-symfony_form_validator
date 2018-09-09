@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandidatoRepository")
@@ -21,6 +23,7 @@ class Candidato
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $nome;
 
@@ -28,6 +31,8 @@ class Candidato
      * @var string
      *
      * @ORM\Column(type="string", length=1)
+     * @Assert\NotBlank()
+     * @Assert\Choice(choices={"M","F"})
      */
     private $sexo;
 
@@ -35,6 +40,8 @@ class Candidato
      * @var \DateTime
      *
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     * @Assert\Date()
      */
     private $data_nascimento;
 
@@ -42,6 +49,7 @@ class Candidato
      * @var integer
      *
      * @ORM\Column(type="integer")
+     * @Assert\Range(min="0", max="120")
      */
     private $idade;
 
@@ -49,6 +57,8 @@ class Candidato
      * @var float
      *
      * @ORM\Column(type="decimal", precision=2, length=10)
+     * @Assert\NotBlank()
+     * @Assert\Range(min="0", max="10000000"))
      */
     private $pretensao_salarial;
 
@@ -56,6 +66,7 @@ class Candidato
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\File(mimeTypes={"image/png", "image/jpg"})
      */
     private $foto;
 
@@ -63,30 +74,41 @@ class Candidato
      * @var Cargo
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Cargo")
+     * @Assert\NotBlank()
      */
     private $cargo;
 
     /**
      * @var Endereco
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Endereco")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Endereco", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $endereco;
 
     /**
      * @var HistoricoProfissional
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoricoProfissional", mappedBy="candidato")
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoricoProfissional", mappedBy="candidato", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $historico;
 
     /**
      * @var Tecnologia
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tecnologia", inversedBy="candidatos")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tecnologia", inversedBy="candidatos", cascade={"persist"})
      * @ORM\JoinTable(name="candidatos_tecnologias")
+     * @Assert\Count(min="3", max="10")
      */
     private $tecnologia;
+
+    /**
+     * @var string
+     *
+     * @\App\Validator\SonPass()
+     */
+    private $palavra_magica;
 
     public function getId()
     {
@@ -204,7 +226,7 @@ class Candidato
     /**
      * @return Cargo
      */
-    public function getCargo (): Cargo
+    public function getCargo ()
     {
         return $this->cargo;
     }
@@ -213,7 +235,7 @@ class Candidato
      * @param Cargo $cargo
      * @return Candidato
      */
-    public function setCargo (Cargo $cargo): Candidato
+    public function setCargo ($cargo)
     {
         $this->cargo = $cargo;
         return $this;
@@ -222,7 +244,7 @@ class Candidato
     /**
      * @return Endereco
      */
-    public function getEndereco (): Endereco
+    public function getEndereco ()
     {
         return $this->endereco;
     }
@@ -231,7 +253,7 @@ class Candidato
      * @param Endereco $endereco
      * @return Candidato
      */
-    public function setEndereco (Endereco $endereco): Candidato
+    public function setEndereco ($endereco)
     {
         $this->endereco = $endereco;
         return $this;
@@ -240,7 +262,7 @@ class Candidato
     /**
      * @return HistoricoProfissional
      */
-    public function getHistorico (): HistoricoProfissional
+    public function getHistorico ()
     {
         return $this->historico;
     }
@@ -249,7 +271,7 @@ class Candidato
      * @param HistoricoProfissional $historico
      * @return Candidato
      */
-    public function setHistorico (HistoricoProfissional $historico): Candidato
+    public function setHistorico ($historico)
     {
         $this->historico = $historico;
         return $this;
@@ -258,18 +280,38 @@ class Candidato
     /**
      * @return Tecnologia
      */
-    public function getTecnologia (): Tecnologia
+    public function getTecnologia ()
     {
         return $this->tecnologia;
     }
 
     /**
-     * @param Tecnologia $tecnologia
-     * @return Candidato
+     * @param $tecnologia
+     * @return $this
      */
-    public function setTecnologia (Tecnologia $tecnologia): Candidato
+    public function setTecnologia ($tecnologia)
     {
         $this->tecnologia = $tecnologia;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getPalavraMagica ()
+    {
+        return $this->palavra_magica;
+    }
+
+    /**
+     * @param string $palavra_magica
+     * @return Candidato
+     */
+    public function setPalavraMagica ($palavra_magica)
+    {
+        $this->palavra_magica = $palavra_magica;
+        return $this;
+    }
+
+
 }

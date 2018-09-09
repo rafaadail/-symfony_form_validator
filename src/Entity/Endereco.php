@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EnderecoRepository")
@@ -21,6 +22,7 @@ class Endereco
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $rua;
 
@@ -28,6 +30,7 @@ class Endereco
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $numero;
 
@@ -35,6 +38,7 @@ class Endereco
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $bairro;
 
@@ -42,6 +46,7 @@ class Endereco
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $cidade;
 
@@ -49,6 +54,7 @@ class Endereco
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $estado;
 
